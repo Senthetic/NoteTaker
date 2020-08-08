@@ -1,11 +1,12 @@
 const util = require("util");
 const fs = require("fs");
 
+//package that generates unique ids
+const uuidv1 = require("uuid/v1");
+
 const readFileAsync = util.promisify(fs.readFile);
 const writeFileAsync = util.promisify(fs.writeFile);
 
-//package that generates unique ids
-const uuidv1 = require("uuid/v1");
 
 class Store {
     read() {
@@ -18,6 +19,7 @@ class Store {
       getNotes() {
         return this.read().then((notes) => {
           let parsedNotes;
+
           try {
             parsedNotes = [].concat(JSON.parse(notes));
           } catch (err) {
@@ -27,6 +29,7 @@ class Store {
           return parsedNotes;
         });
       }
+
       addNote(note) {
         const { title, text } = note;
     
@@ -42,6 +45,7 @@ class Store {
           .then((updatedNotes) => this.write(updatedNotes))
           .then(() => newNote);
       }
+      
       removeNote(id) {
         // Get all notes, remove the note with the given id, write the filtered notes
         return this.getNotes()
