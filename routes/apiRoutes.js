@@ -9,4 +9,12 @@ router.get("/notes", (req, res) => {
       .catch((err) => res.status(500).json(err));
   });
 
+  //Post request for notes
+  router.post("/notes", (req, res) => {
+    store
+      .addNote(req.body)
+      .then((note) => res.json(note))
+      .catch((err) => res.status(500).json(err));
+  });
+
   
